@@ -1,21 +1,23 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
 
-const messageModel = new mongoose.Schema({
-    participants: [{
+const conversationModel = new mongoose.Schema(
+  {
+    participants: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"User"
-    }],
-    messages:  [{
+        ref: "User",
+      },
+    ],
+    messages: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"Message"
-    }],
-   
-
-},
-{
+        ref: "Message",
+      },
+    ],
+  },
+  {
     timestamps: true,
-    
-}
-)
+  }
+);
 
-module.exports = mongoose.model('Conversation', conversationModel)
+ export const Conversation = mongoose.model("Conversation" , conversationModel)

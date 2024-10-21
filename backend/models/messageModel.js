@@ -1,4 +1,4 @@
-const mongoose = require('mongoose') 
+import mongoose from 'mongoose' 
 
 const messageModel = new mongoose.Schema({
     senderId: {
@@ -22,4 +22,4 @@ const messageModel = new mongoose.Schema({
     
 })
 
-module.exports = mongoose.model('Message', messageModel)
+export const Message = mongoose.model('Message', messageModel)
