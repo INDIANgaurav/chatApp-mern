@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     fullName: "",
     username: "",
+    email: "",
     password: "",
     confirmPassword: "",
     gender: "",
@@ -13,11 +17,31 @@ const Signup = () => {
     setUser({ ...user, gender });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/v1/user/register",
+        user,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        toast.success(res.data.message);
+      }
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
     setUser({
       fullName: "",
       username: "",
+      email: "",
       password: "",
       confirmPassword: "",
       gender: "",
@@ -52,6 +76,18 @@ const Signup = () => {
               onChange={(e) => setUser({ ...user, username: e.target.value })}
               className="w-full input input-bordered h-10"
               type="text"
+              placeholder="Enter your Username"
+            />
+          </div>
+          <div>
+            <label className="label p-2">
+              <span className="text-base label-text ">Email</span>
+            </label>
+            <input
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
+              className="w-full input input-bordered h-10"
+              type="email"
               placeholder="Enter your Username"
             />
           </div>
